@@ -35,22 +35,19 @@ public class AsciidocConfluencePublisherCommandLineClient {
 
 	public static void main(String[] args) throws Exception {
 		ArgumentsParser argumentsParser = new ArgumentsParser();
-		String spaceKey = argumentsParser.mandatoryArgument("spaceKey", args);
-		String ancestorId = argumentsParser.mandatoryArgument("ancestorId", args);
 
 		Path documentationRootFolder = Paths.get(argumentsParser.mandatoryArgument("asciidocRootFolder", args));
-		Path buildFolder = createTempDirectory("/tmp/confluence-converts");
 
 		Charset sourceEncoding = Charset.forName(argumentsParser.optionalArgument("sourceEncoding", args).orElse("UTF-8"));
 		String prefix = argumentsParser.optionalArgument("pageTitlePrefix", args).orElse(null);
 		String suffix = argumentsParser.optionalArgument("pageTitleSuffix", args).orElse(null);
 		Map<String, Object> attributes = argumentsParser.optionalJsonArgument("attributes", args).orElseGet(Collections::emptyMap);
-
+		Path buildFolder = createTempDirectory("/tmp/confluence-converts/" + documentationRootFolder.getFileName());
 		try {
 			AsciidocPagesStructureProvider asciidocPagesStructureProvider = new FolderBasedAsciidocPagesStructureProvider(documentationRootFolder, sourceEncoding);
 			PageTitlePostProcessor pageTitlePostProcessor = new PrefixAndSuffixPageTitlePostProcessor(prefix, suffix);
 
-			AsciidocConfluenceConverter asciidocConfluenceConverter = new AsciidocConfluenceConverter(spaceKey, ancestorId);
+			AsciidocConfluenceConverter asciidocConfluenceConverter = new AsciidocConfluenceConverter();
 			asciidocConfluenceConverter.convert(asciidocPagesStructureProvider, pageTitlePostProcessor, buildFolder, attributes);
 		} catch (Exception e) {
 			deleteDirectory(buildFolder);

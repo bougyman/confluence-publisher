@@ -52,14 +52,6 @@ public final class AsciidocConfluenceConverter {
 
 	private static final String TEMPLATE_ROOT_CLASS_PATH_LOCATION = "org/sahli/asciidoc/confluence/publisher/converter/templates";
 
-	private final String spaceKey;
-	private final String ancestorId;
-
-	public AsciidocConfluenceConverter(String spaceKey, String ancestorId) {
-		this.spaceKey = spaceKey;
-		this.ancestorId = ancestorId;
-	}
-
 	public ConfluencePublisherMetadata convert(AsciidocPagesStructureProvider asciidocPagesStructureProvider, Path buildFolder, Map<String, Object> userAttributes) {
 		return convert(asciidocPagesStructureProvider, new NoOpPageTitlePostProcessor(), buildFolder, userAttributes);
 	}
@@ -80,8 +72,6 @@ public final class AsciidocConfluenceConverter {
 			List<ConfluencePageMetadata> confluencePages = buildPageTree(templatesRootFolder, assetsRootFolder, asciidocPages, sourceEncoding, pageTitlePostProcessor, userAttributes);
 
 			ConfluencePublisherMetadata confluencePublisherMetadata = new ConfluencePublisherMetadata();
-			confluencePublisherMetadata.setSpaceKey(this.spaceKey);
-			confluencePublisherMetadata.setAncestorId(this.ancestorId);
 			confluencePublisherMetadata.setPages(confluencePages);
 
 			return confluencePublisherMetadata;
