@@ -1,4 +1,4 @@
-package org.sahli.asciidoc.confluence.publisher.cli;
+package org.sahli.asciidoc.confluence.publisher.converter;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

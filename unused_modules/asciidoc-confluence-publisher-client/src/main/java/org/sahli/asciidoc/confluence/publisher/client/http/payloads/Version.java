@@ -14,19 +14,32 @@
  * limitations under the License.
  */
 
-package org.sahli.asciidoc.confluence.publisher.converter;
+package org.sahli.asciidoc.confluence.publisher.client.http.payloads;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.SOURCE;
+import org.sahli.asciidoc.confluence.publisher.converter.RuntimeUse;
 
 /**
  * @author Alain Sahli
  */
-@Retention(SOURCE)
-@Target({TYPE, METHOD})
-public @interface RuntimeUse {
+public class Version {
+
+    private int number;
+    private String message;
+
+    @RuntimeUse
+    public int getNumber() {
+        return this.number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 }

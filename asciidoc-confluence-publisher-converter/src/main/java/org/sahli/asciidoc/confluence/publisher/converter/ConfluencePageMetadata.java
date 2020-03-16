@@ -14,75 +14,73 @@
  * limitations under the License.
  */
 
-package org.sahli.asciidoc.confluence.publisher.client.metadata;
+package org.sahli.asciidoc.confluence.publisher.converter;
 
-import org.sahli.asciidoc.confluence.publisher.client.support.RuntimeUse;
+import static java.util.Collections.emptyList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.util.Collections.emptyList;
-
 /**
  * @author Alain Sahli
  */
 public class ConfluencePageMetadata {
 
-    private String title;
-    private String contentFilePath;
-    private List<ConfluencePageMetadata> children = new ArrayList<>();
-    private Map<String, String> attachments = new HashMap<>();
-    private List<String> labels = new ArrayList<>();
+	private String title;
+	private String contentFilePath;
+	private List<ConfluencePageMetadata> children = new ArrayList<>();
+	private Map<String, String> attachments = new HashMap<>();
+	private List<String> labels = new ArrayList<>();
 
-    public String getTitle() {
-        return this.title;
-    }
+	public String getTitle() {
+		return this.title;
+	}
 
-    @RuntimeUse
-    public void setTitle(String title) {
-        this.title = title;
-    }
+	@RuntimeUse
+	public void setTitle(String title) {
+		this.title = title;
+	}
 
-    public String getContentFilePath() {
-        return this.contentFilePath;
-    }
+	public String getContentFilePath() {
+		return this.contentFilePath;
+	}
 
-    @RuntimeUse
-    public void setContentFilePath(String contentFilePath) {
-        this.contentFilePath = contentFilePath;
-    }
+	@RuntimeUse
+	public void setContentFilePath(String contentFilePath) {
+		this.contentFilePath = contentFilePath;
+	}
 
-    public List<ConfluencePageMetadata> getChildren() {
-        if (this.children == null) {
-            return emptyList();
-        } else {
-            return this.children;
-        }
-    }
+	public List<ConfluencePageMetadata> getChildren() {
+		if (this.children == null) {
+			return emptyList();
+		} else {
+			return this.children;
+		}
+	}
 
-    @RuntimeUse
-    public void setChildren(List<ConfluencePageMetadata> children) {
-        this.children = children;
-    }
+	@RuntimeUse
+	public void setChildren(List<ConfluencePageMetadata> children) {
+		this.children = children;
+	}
 
-    public Map<String, String> getAttachments() {
-        return this.attachments;
-    }
+	public Map<String, String> getAttachments() {
+		return this.attachments;
+	}
 
-    @RuntimeUse
-    public void setAttachments(Map<String, String> attachments) {
-        this.attachments = attachments;
-    }
+	@RuntimeUse
+	public void setAttachments(Map<String, String> attachments) {
+		this.attachments = attachments;
+	}
 
-    public List<String> getLabels() {
-        return this.labels;
-    }
+	public List<String> getLabels() {
+		return this.labels;
+	}
 
-    @RuntimeUse
-    public void setLabels(List<String> labels) {
-        this.labels = labels;
-    }
+	@RuntimeUse
+	public void setLabels(List<String> labels) {
+		this.labels = labels;
+	}
 
 }

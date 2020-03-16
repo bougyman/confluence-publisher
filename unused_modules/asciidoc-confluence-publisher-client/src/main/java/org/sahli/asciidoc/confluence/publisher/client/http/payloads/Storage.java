@@ -14,19 +14,29 @@
  * limitations under the License.
  */
 
-package org.sahli.asciidoc.confluence.publisher.converter;
+package org.sahli.asciidoc.confluence.publisher.client.http.payloads;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.SOURCE;
+import org.sahli.asciidoc.confluence.publisher.converter.RuntimeUse;
 
 /**
  * @author Alain Sahli
  */
-@Retention(SOURCE)
-@Target({TYPE, METHOD})
-public @interface RuntimeUse {
+public class Storage {
+
+    private String value;
+
+    @RuntimeUse
+    public String getRepresentation() {
+        return "storage";
+    }
+
+    @RuntimeUse
+    public String getValue() {
+        return this.value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
 }

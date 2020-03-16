@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2017 the original author or authors.
+ * Copyright 2017 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,35 @@
  * limitations under the License.
  */
 
-package org.sahli.asciidoc.confluence.publisher.converter;
+package org.sahli.asciidoc.confluence.publisher.client.http.payloads;
 
-import java.lang.annotation.Retention;
-import java.lang.annotation.Target;
-
-import static java.lang.annotation.ElementType.METHOD;
-import static java.lang.annotation.ElementType.TYPE;
-import static java.lang.annotation.RetentionPolicy.SOURCE;
+import org.sahli.asciidoc.confluence.publisher.converter.RuntimeUse;
 
 /**
  * @author Alain Sahli
+ * @author Christian Stettler
  */
-@Retention(SOURCE)
-@Target({TYPE, METHOD})
-public @interface RuntimeUse {
+public class PropertyPayload {
+
+    private String key;
+    private String value;
+
+    @RuntimeUse
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    @RuntimeUse
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
 }

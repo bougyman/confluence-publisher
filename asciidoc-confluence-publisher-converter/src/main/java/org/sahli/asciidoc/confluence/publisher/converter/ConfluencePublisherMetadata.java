@@ -14,9 +14,7 @@
  * limitations under the License.
  */
 
-package org.sahli.asciidoc.confluence.publisher.client.metadata;
-
-import org.sahli.asciidoc.confluence.publisher.client.support.RuntimeUse;
+package org.sahli.asciidoc.confluence.publisher.converter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,35 +24,35 @@ import java.util.List;
  */
 public class ConfluencePublisherMetadata {
 
-    private String spaceKey;
-    private String ancestorId;
-    private List<ConfluencePageMetadata> pages = new ArrayList<>();
+	private String spaceKey;
+	private String ancestorId;
+	private List<ConfluencePageMetadata> pages = new ArrayList<>();
 
-    public String getSpaceKey() {
-        return this.spaceKey;
-    }
+	public String getSpaceKey() {
+		return this.spaceKey;
+	}
 
-    @RuntimeUse
-    public void setSpaceKey(String spaceKey) {
-        this.spaceKey = spaceKey;
-    }
+	@RuntimeUse
+	public void setSpaceKey(String spaceKey) {
+		this.spaceKey = spaceKey;
+	}
 
-    public String getAncestorId() {
-        return this.ancestorId;
-    }
+	public String getAncestorId() {
+		return this.ancestorId;
+	}
 
-    @RuntimeUse
-    public void setAncestorId(String ancestorId) {
-        this.ancestorId = ancestorId;
-    }
+	@RuntimeUse
+	public void setAncestorId(String ancestorId) {
+		this.ancestorId = ancestorId;
+	}
 
-    public List<ConfluencePageMetadata> getPages() {
-        return this.pages;
-    }
+	public List<ConfluencePageMetadata> getPages() {
+		return this.pages;
+	}
 
-    @RuntimeUse
-    public void setPages(List<ConfluencePageMetadata> pages) {
-        this.pages = pages;
-    }
+	@RuntimeUse
+	public void setPages(List<ConfluencePageMetadata> pages) {
+		this.pages = pages;
+	}
 
 }
