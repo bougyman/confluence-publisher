@@ -200,6 +200,14 @@
         <pluginManagement>
             <plugins>
                 <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.2.1</version>
+                    <configuration>
+                        <mainClass>org.sahli.asciidoc.confluence.publisher.converter.AsciidocConfluencePublisherCommandLineClient</mainClass>
+                    </configuration>
+                </plugin>
+                <plugin>
                     <groupId>org.sahli.asciidoc.confluence.publisher</groupId>
                     <artifactId>asciidoc-confluence-publisher-maven-plugin</artifactId>
                     <version>${project.version}</version>

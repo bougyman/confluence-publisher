@@ -17,13 +17,14 @@
 package org.sahli.asciidoc.confluence.publisher.converter;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
-import static java.nio.file.Files.createTempDirectory;
+import static java.nio.file.Files.createDirectory;
 import static java.nio.file.Files.delete;
 import static java.nio.file.Files.walkFileTree;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileVisitResult;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
@@ -37,20 +38,23 @@ public class AsciidocConfluencePublisherCommandLineClient {
 		ArgumentsParser argumentsParser = new ArgumentsParser();
 
 		Path documentationRootFolder = Paths.get(argumentsParser.mandatoryArgument("asciidocRootFolder", args));
-
 		Charset sourceEncoding = Charset.forName(argumentsParser.optionalArgument("sourceEncoding", args).orElse("UTF-8"));
-		String prefix = argumentsParser.optionalArgument("pageTitlePrefix", args).orElse(null);
-		String suffix = argumentsParser.optionalArgument("pageTitleSuffix", args).orElse(null);
 		Map<String, Object> attributes = argumentsParser.optionalJsonArgument("attributes", args).orElseGet(Collections::emptyMap);
-		Path buildFolder = createTempDirectory("/tmp/confluence-converts/" + documentationRootFolder.getFileName());
+
+		Path convertDirPath = Paths.get("/tmp/confluence-converts");
+		if (!Files.exists(convertDirPath)) {
+			createDirectory(convertDirPath);
+		}
+		Path newDirectoryForConvert = Paths.get("/tmp/confluence-converts/" + documentationRootFolder.getFileName());
+		Path buildFolder = createDirectory(newDirectoryForConvert);
 		try {
 			AsciidocPagesStructureProvider asciidocPagesStructureProvider = new FolderBasedAsciidocPagesStructureProvider(documentationRootFolder, sourceEncoding);
-			PageTitlePostProcessor pageTitlePostProcessor = new PrefixAndSuffixPageTitlePostProcessor(prefix, suffix);
 
 			AsciidocConfluenceConverter asciidocConfluenceConverter = new AsciidocConfluenceConverter();
-			asciidocConfluenceConverter.convert(asciidocPagesStructureProvider, pageTitlePostProcessor, buildFolder, attributes);
+			asciidocConfluenceConverter.convert(asciidocPagesStructureProvider, buildFolder, attributes);
 		} catch (Exception e) {
 			deleteDirectory(buildFolder);
+			throw e;
 		}
 	}
 
