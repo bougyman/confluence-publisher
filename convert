@@ -1,5 +1,0 @@
-#!/bin/bash
-pushd asciidoc-confluence-publisher-converter || exit
-mvn compile exec:java -e -Dexec.args=\"asciidocRootFolder="$1"\"
-popd || exit
-echo "Converted to /tmp/confluence-converts/$(basename "$1")"
