@@ -124,14 +124,22 @@ dir=$(mktemp -d)
 debug 1 "Using $dir for temporary storage of asciidoc"
 cp "$file_to_convert" "$dir"/main.adoc
 
-pushd "$here/asciidoc-confluence-publisher-converter" || die 4 "Could not cd to $here/asciidoc-confluence-publisher-converter"
-mvn compile exec:java -e -Dexec.args=\"asciidocRootFolder="$dir"\"
+pushd "$here/asciidoc-confluence-publisher-converter" || die 3 "Could not cd to $here/asciidoc-confluence-publisher-converter"
+if [ ! -z "$CONFLUENTIAL_DEBUG" ]
+then
+    mvn compile exec:java -e -Dexec.args=\"asciidocRootFolder="$dir"\"
+    res=$?
+else
+    mvn compile exec:java -e -Dexec.args=\"asciidocRootFolder="$dir"\" >/dev/null
+    res=$?
+end
+[ $res -eq 0 ] || die 4 "Conversion failed"
 popd || die 5 "Could not return to working directory"
 outdir="/tmp/confluence-converts/$(basename "$dir")"
 debug 1 "Converted to $outdir"
 
 html=$(ls "$outdir"/assets/*/main.html)
-[ -f "$html" ] || die 3 "Cannot find main.html in $outdir. Try running with CONFLUENTIAL_DEBUG and inspect the output directory"
+[ -f "$html" ] || die 6 "Cannot find main.html in $outdir. Try running with CONFLUENTIAL_DEBUG and inspect the output directory"
 
 xhtml="${bare_file}.xhtml"
 if [ -f "$xhtml" ]
@@ -145,6 +153,6 @@ then
     fi
 fi
 
-cp "$html" "$xhtml" || die 6 "Unable to cp $html to $xhtml"
+cp "$html" "$xhtml" || die 7 "Unable to cp $html to $xhtml"
 debug 0 "Wrote $xhtml"
 # vim: set et sw=4 ts=4 sts=4 syntax=sh foldmethod=marker :
