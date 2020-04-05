@@ -132,7 +132,7 @@ then
 else
     mvn compile exec:java -e -Dexec.args=\"asciidocRootFolder="$dir"\" >/dev/null
     res=$?
-end
+fi
 [ $res -eq 0 ] || die 4 "Conversion failed"
 popd || die 5 "Could not return to working directory"
 outdir="/tmp/confluence-converts/$(basename "$dir")"
