@@ -142,7 +142,7 @@ fi
 copy_to_dir() {
     local file
     file=$1
-    cp "$file" "$dir" || die 7 "Could not copy '$file' to '$dir'"
+    cp -L "$file" "$dir" || die 7 "Could not copy '$file' to '$dir'"
 }
 
 find "$include_dir" -maxdepth 1 -name "*.adoc-include" -print0 | while read -r -d '' file
