@@ -112,6 +112,7 @@ file_to_convert=$1
 [ -z "$file_to_convert" ] && die 1 "No file name to convert given"
 [ -f "$file_to_convert" ] || die 2 "File ${file_to_convert} does not exist"
 bare_file=${file_to_convert%.*}
+dirname=$(dirname "$file_to_convert")
 
 # If this debug var is set, do not clean up the tmpdir
 if [ -z "$CONFLUENTIAL_DEBUG" ]
@@ -123,6 +124,31 @@ fi
 dir=$(mktemp -d)
 debug 1 "Using $dir for temporary storage of asciidoc"
 cp "$file_to_convert" "$dir"/main.adoc
+explicit_includedir=$(awk '/^:includedir:/ { $1=""; print substr($0, 2 ,length($0)-1) }' "$file_to_convert")
+if [ -z "$explicit_includedir" ]
+then
+    include_dir=$dirname
+else
+    if [[ "$explicit_includedir" =~ ^/ ]]
+    then
+        # Includedir is a fully qualified path
+        include_dir=$explicit_includedir 
+    else
+        # Includedir is relative to the asciidoc file's path
+        include_dir=$dirname/$explicit_includedir
+    fi
+fi
+
+copy_to_dir() {
+    local file
+    file=$1
+    cp "$file" "$dir" || die 7 "Could not copy '$file' to '$dir'"
+}
+
+find "$include_dir" -maxdepth 1 -name "*.adoc-include" -print0 | while read -r -d '' file
+do
+    copy_to_dir "$file"
+done
 
 pushd "$here/asciidoc-confluence-publisher-converter" || die 3 "Could not cd to $here/asciidoc-confluence-publisher-converter"
 if [ ! -z "$CONFLUENTIAL_DEBUG" ]
@@ -133,7 +159,7 @@ else
     mvn compile exec:java -e -Dexec.args=\"asciidocRootFolder="$dir"\" >/dev/null
     res=$?
 fi
-[ $res -eq 0 ] || die 4 "Conversion failed"
+[ $res -eq 0 ] || die 4 "Conversion failed with exit code $res"
 popd || die 5 "Could not return to working directory"
 outdir="/tmp/confluence-converts/$(basename "$dir")"
 debug 1 "Converted to $outdir"
